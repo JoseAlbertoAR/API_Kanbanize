@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
+require('dotenv/config');
 
 const port = process.env.PORT || 3013;
 
