@@ -1,6 +1,7 @@
-const express = require('express');
-const cors = require('cors');
-const multer = require('multer');
+import express from 'express';
+import cors from 'cors';
+import multer from 'multer';
+import fetch from 'node-fetch'
 
 const port = process.env.PORT || 3013;
 
