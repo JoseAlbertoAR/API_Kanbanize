@@ -17,7 +17,7 @@ app.post('/login', async (req, res) => {
     };
     const response = await fetch(`https://university6y.kanbanize.com/index.php/api/kanbanize/login//format/json`,
     {
-        method: 'GET',
+        method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(values)
     });
