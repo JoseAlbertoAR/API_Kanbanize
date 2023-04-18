@@ -17,7 +17,7 @@ app.post('/login', async (req, res) => {
     };
     const response = await fetch(`https://university6y.kanbanize.com/index.php/api/kanbanize/login//format/json`,
     {
-        method: 'POST',
+        method: 'GET',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(values)
     });
@@ -45,6 +45,60 @@ app.get('/', async (req, res) => {
     console.log(values);
     res.json(data);
 })
+
+/*
+app.get('/boards', async (req, res) => {
+    const values ={
+        "apikey": apikey,
+        "data": [
+          {
+            "board_id": 0,
+            "workspace_id": 0,
+            "is_archived": 0,
+            "if_asigned": 1,
+            "name": "string",              }
+        ]        
+    }
+    const response = await fetch(`https://university6y.kanbanize.com/api/v2/workspaces?if_assigned_to_boards=1&is_archived=0`,
+    {
+        method: 'get',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(values)
+    });
+
+    const data = await response.json();
+    console.log(values);
+    res.json(data);
+})*/
+app.post('/workspaces', async (req,res) =>{
+    const apikey = req.body.apikey;
+    console.log(req.body);
+
+    try{
+        const response = await  fetch(`https://university6y.kanbanize.com/api/v2/workspaces?if_assigned_to_boards=1&is_archived=0`, {
+            method: "get",
+            headers: {
+                "apikey": apikey
+            },
+        })
+        if (response.ok){
+            const data = await response.json();
+            //const workSpaces = data.data;
+            res.json(data);
+            console.log("Workspaces: ", data);
+        }
+        else{
+            res.json({"error": response.status});
+        }
+    }
+    catch(error){
+        console.error(error);
+        res.json({"error": error});
+    }
+})
+
+
+
 
 
 app.listen(port, () => {
