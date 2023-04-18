@@ -55,7 +55,7 @@ app.post('/workspaces', async (req,res) =>{
             method: "get",
             headers: {
                 "apikey": apikey,
-                "workspace_id": workspace_id
+                // "workspace_id": workspace_id
             },
         })
         if (response.ok){
