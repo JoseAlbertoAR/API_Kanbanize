@@ -135,8 +135,6 @@ app.post('/cards', async (req, res) => {
     const w_ID = 47; //req.params.w_ID; //workflow_id
     const b_ID = 21; //req.params.b_ID; //board_id
     const c_ID = 329; //req.params.c_ID; //column_id
-
-
     try {
         const response = await fetch(`https://university6y.kanbanize.com/api/v2/cards?board_ids=${b_ID}&workflow_ids=${w_ID}&column_ids=${c_ID}&fields=card_id,title,priority,deadline,board_id,workflow_id,column_id&expand=co_owner_ids`, {
             method: "get",
@@ -160,7 +158,34 @@ app.post('/cards', async (req, res) => {
     }
 })
 
+// app.post('/cards/create', async (req, res) => {
+//     const apikey = req.body.apikey;
+//     const values = {column_id: req.body.c_ID, lane_id: req.body.w_ID, tittle: req.body.tittle}
+//     try {
+//         const response = await fetch(`https://university6y.kanbanize.com/api/v2/cards`,
+//         {
+//             method: "POST",
+//             headers: {
+//                 "Content-Type": "application/json", charset: "utf-8",
+//                 "apikey": apikey
+//             },
+//             body: JSON.stringify(values)
 
+//         })
+//         if (response.ok) {
+//             const data = await response.json();
+//             res.json(data);
+//             console.log("Boards: ", data);
+//         }
+//         else {
+//             res.json({ "error": response.status });
+//         }
+//     }
+//     catch (error) {
+//         console.error(error);
+//         res.json({ "error": error });
+//     }
+// })
 
 
 app.listen(port, () => {
