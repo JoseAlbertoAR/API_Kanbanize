@@ -5,9 +5,10 @@ module.exports.login = async (req, res) => {
     console.log('body: ', req.body);
     const values = {
         email: req.body.email,
-        pass: req.body.pass
+        pass: req.body.pass,
+        dom: req.body.dom
     };
-    const response = await fetch(`https://university6y.kanbanize.com/index.php/api/kanbanize/login//format/json`,
+    const response = await fetch(`https://${kanbanizeUrl}.kanbanize.com/index.php/api/kanbanize/login//format/json`,
         {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

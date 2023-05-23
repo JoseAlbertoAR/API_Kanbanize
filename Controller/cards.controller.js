@@ -2,15 +2,17 @@ const fetch = require('node-fetch');
 
 module.exports.cards = async (req, res) => {
     const apikey = req.body.apikey;
+    const kanbanizeUrl = req.body.dom;
     // const b_ID = 21; //req.params.b_ID; //board_id
     const b_ID = req.body.b_ID; //board_id
 
     try {
         // const response = await fetch(`https://university6y.kanbanize.com/api/v2/cards?board_ids=${b_ID}&workflow_ids=${w_ID}&column_ids=${c_ID}&fields=card_id,title,priority,deadline,board_id,workflow_id,column_id&expand=co_owner_ids`, {
-        const response = await fetch(`https://university6y.kanbanize.com/api/v2/cards?board_ids=${b_ID}&fields=card_id,title,owner_user_id,type_id,priority,deadline,workflow_id,column_id&expand=co_owner_ids`, {
+        const response = await fetch(`https://${kanbanizeUrl}.kanbanize.com/api/v2/cards?board_ids=${b_ID}&fields=card_id,title,owner_user_id,type_id,priority,deadline,workflow_id,column_id&expand=co_owner_ids`, {
             method: "get",
             headers: {
-                "apikey": apikey
+                "apikey": apikey,
+                "domain": kanbanizeUrl,
             },
 
         })
@@ -31,9 +33,10 @@ module.exports.cards = async (req, res) => {
 
 module.exports.users = async (req, res) => {
     const apikey = req.body.apikey;
+    const kanbanizeUrl = req.body.dom;
 
     try {
-        const response = await fetch(`https://university6y.kanbanize.com/api/v2/users?fields=user_id,username,realname&expand=board_roles`, {
+        const response = await fetch(`https://${kanbanizeUrl}.kanbanize.com/api/v2/users?fields=user_id,username,realname&expand=board_roles`, {
             method: "get",
             headers: {
                 "apikey": apikey
@@ -55,6 +58,8 @@ module.exports.users = async (req, res) => {
 module.exports.cardsCreate = async (req, res) => {
     //esta ruta crea una tarjeta en el tablero
     const apikey = req.headers.apikey;
+    const kanbanizeUrl = req.headers.dom;
+
     //const values = {column_id: req.body.c_ID, lane_id: req.body.w_ID, title: req.body.title, deadline: req.body.deadline, owner_user_id: req.body.owner_user_id, priority: req.body.priority}
     //const values = {column_id: req.body.c_ID, lane_id: req.body.w_ID, title: req.body.title}
 
@@ -75,12 +80,13 @@ module.exports.cardsCreate = async (req, res) => {
     })
 
     try {
-        const response = await fetch(`https://university6y.kanbanize.com/api/v2/cards`,
+        const response = await fetch(`https://${kanbanizeUrl}.kanbanize.com/api/v2/cards`,
         {
             method: "POST",
             headers: {
                 "Content-Type": "application/json; charsetx=utf8",
-                "apikey": apikey
+                "apikey": apikey,
+                "domain": kanbanizeUrl,
             },
             // body: JSON.stringify(values)
             body: formData,
@@ -148,14 +154,16 @@ module.exports.cardsCreate = async (req, res) => {
 
 module.exports.cardsComments = async (req, res) => {
     const apikey = req.body.apikey;
+    const kanbanizeUrl = req.body.dom;
     // const b_ID = 21; //req.params.b_ID; //board_id
     const card_id = req.body.c_ID; //board_id
     try {
         // const response = await fetch(`https://university6y.kanbanize.com/api/v2/cards?board_ids=${b_ID}&workflow_ids=${w_ID}&column_ids=${c_ID}&fields=card_id,title,priority,deadline,board_id,workflow_id,column_id&expand=co_owner_ids`, {
-        const response = await fetch(`https://university6y.kanbanize.com/api/v2/cards/${c_ID}/comments`, {
+        const response = await fetch(`https://${kanbanizeUrl}.kanbanize.com/api/v2/cards/${c_ID}/comments`, {
             method: "get",
             headers: {
-                "apikey": apikey
+                "apikey": apikey,
+                "domain": kanbanizeUrl,
             },
         })
         if (response.ok) {
@@ -176,18 +184,21 @@ module.exports.cardsComments = async (req, res) => {
 module.exports.cardsCommentsCreate = async (req, res) => {
     //esta ruta crea un comentario en una tarjeta
     const apikey = req.headers.apikey;
+    const kanbanizeUrl = req.headers.dom;
+
     const card_id = req.body.c_ID;
     //const text = req.body.text;
     //const values = {column_id: req.body.c_ID, lane_id: req.body.w_ID, title: req.body.title}
     const values = {text: req.body.text};
 
     try {
-        const response = await fetch(`https://university6y.kanbanize.com/api/v2/cards/${c_ID}/comments`,
+        const response = await fetch(`https://${kanbanizeUrl}.kanbanize.com/api/v2/cards/${c_ID}/comments`,
         {
             method: "POST",
             headers: {
                 "Content-Type": "application/json; charsetx=utf8",
-                "apikey": apikey
+                "apikey": apikey,
+                "domain": kanbanizeUrl,
             },
             body: JSON.stringify(values)
             //body: formData,
