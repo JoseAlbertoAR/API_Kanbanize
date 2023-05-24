@@ -245,50 +245,37 @@ app.post('/cards/create', async (req, res) => {
     }
 })
 
-// app.post('/cards/move', async (req, res) => {
-//     const apikey = req.body.apikey;
-//     const values = {column_id: req.body.c_ID, lane_id: req.body.w_ID, title: req.body.title, deadline: req.body.deadline, owner_user_id: req.body.owner_user_id, priority: req.body.priority}
-//     try {
-//         const response = await fetch(`https://university6y.kanbanize.com/api/v2/cards`,
-//         {
-//             method: "patch",
-//             headers: {
-//                 "Content-Type": "application/json", charset: "utf-8",
-//                 "apikey": apikey
-//             },
-//             body: JSON.stringify(values)
+app.patch('/cards/move', async (req, res) => {
+    const apikey = req.headers.apikey;
+    const kanbanizeUrl = req.headers.dom;
+    const card_id = req.body.card_id;
+    const column_id = req.body.c_ID//values = {column_id: req.body.c_ID}
+    try {
+        const response = await fetch(`https://${kanbanizeUrl}.kanbanize.com/api/v2/cards` + card_id,
+        {
+            method: "patch",
+            headers: {
+                "Content-Type": "application/json; charset=utf8",
+                "apikey": apikey
+            },
+            body: JSON.stringify(values)
 
-//         })
-//         if (response.ok) {
-//             const data = await response.json();
-//             res.json(data);
-//             console.log("Boards: ", data);
-//         }
-//         else {
-//             res.json({ "error": response.status });
-//         }
-//     }
-//     catch (error) {
-//         console.error(error);
-//         res.json({ "error": error });
-//     }
-// })
+        })
+        if (response.ok) {
+            const data = await response.json();
+            res.json(data);
+            //console.log("card: ", data);
+        }
+        else {
+            res.json({ "error": response.status });
+        }
+    }
+    catch (error) {
+        console.error(error);
+        res.json({ "error": error });
+    }
+})
 
-//         })
-//         if (response.ok) {
-//             const data = await response.json();
-//             res.json(data);
-//             console.log("Boards: ", data);
-//         }
-//         else {
-//             res.json({ "error": response.status });
-//         }
-//     }
-//     catch (error) {
-//         console.error(error);
-//         res.json({ "error": error });
-//     }
-// })
 app.post('/cards/comments', async (req, res) => {
     const apikey = req.header.apikey;
     const kanbanizeUrl = req.header.dom;
