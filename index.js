@@ -248,17 +248,24 @@ app.post('/cards/create', async (req, res) => {
 app.patch('/cards/move', async (req, res) => {
     const apikey = req.headers.apikey;
     const kanbanizeUrl = req.headers.dom;
-    const card_id = req.body.card_id;
+    const card_id = req.headers.card_id;
     const column_id = req.body.c_ID//values = {column_id: req.body.c_ID}
+
+    const formData = JSON.stringify({
+        "column_id": column_id
+    })
     try {
-        const response = await fetch(`https://${kanbanizeUrl}.kanbanize.com/api/v2/cards` + card_id,
+        const response = await fetch(`https://${kanbanizeUrl}.kanbanize.com/api/v2/cards/${card_id}`,
         {
             method: "patch",
             headers: {
                 "Content-Type": "application/json; charset=utf8",
-                "apikey": apikey
+                "apikey": apikey,
+                "dom": kanbanizeUrl,
+                "card_id": card_id
             },
-            body: JSON.stringify(values)
+            //body: JSON.stringify(values)
+            body: formData,
 
         })
         if (response.ok) {
