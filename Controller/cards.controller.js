@@ -156,9 +156,9 @@ module.exports.cardsComments = async (req, res) => {
     // const b_ID = 21; //req.params.b_ID; //board_id
     const card_id = req.headers.card_id;
     try {
-        // const response = await fetch(`https://university6y.kanbanize.com/api/v2/cards?board_ids=${b_ID}&workflow_ids=${w_ID}&column_ids=${c_ID}&fields=card_id,title,priority,deadline,board_id,workflow_id,column_id&expand=co_owner_ids`, {
-        const response = await fetch(`https://${kanbanizeUrl}.kanbanize.com/api/v2/cards/${card_id}/comments`, {
-            method: "get",
+        const response = await fetch(`https://${kanbanizeUrl}.kanbanize.com/api/v2/cards/${card_id}/comments`,
+         {
+            method: "GET",
             headers: {
                 "apikey": apikey,
                 "domain": kanbanizeUrl,
