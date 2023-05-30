@@ -3,15 +3,16 @@ const fetch = require('node-fetch');
 
 module.exports.login = async (req, res) => {
     console.log('body: ', req.body);
+    const kanbanizeUrl = req.headers.dom;
     const values = {
         email: req.body.email,
         pass: req.body.pass,
-        dom: req.body.dom
     };
     const response = await fetch(`https://${kanbanizeUrl}.kanbanize.com/index.php/api/kanbanize/login//format/json`,
         {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json',
+            dom: kanbanizeUrl},
             body: JSON.stringify(values)
         });
     const data = await response.json();
