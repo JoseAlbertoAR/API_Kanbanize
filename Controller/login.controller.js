@@ -7,14 +7,25 @@ module.exports.login = async (req, res) => {
         email: req.body.email,
         pass: req.body.pass
     };
-    const response = await fetch(`https://university6y.kanbanize.com/index.php/api/kanbanize/login//format/json`,
-        {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(values)
-        });
-    const data = await response.json();
-    res.json(data);
+    try{
+        const response = await fetch(`https://university6y.kanbanize.com/index.php/api/kanbanize/login//format/json`,
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(values)
+            });
+        if (response.ok) {
+            const data = await response.json();
+            res.json(data);
+        }
+        else {
+            res.json({ "error": response.status });
+        }
+    }
+    catch (error) {
+        console.error(error);
+        res.json({ "error": error });
+    }
 }
 
 // module.exports./ = async (req, res) => {
