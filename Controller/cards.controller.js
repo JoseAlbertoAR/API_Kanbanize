@@ -1,4 +1,21 @@
+//Cosas para el firebase
+const initializeApp = require('firebase/app').initializeApp;
+const getStorage = require('firebase/storage').getStorage;
+const ref = require('firebase/storage').ref;
+const uploadBytes = require('firebase/storage').uploadBytes;
+const getDownloadURL = require('firebase/storage').getDownloadURL;
+// ^^^^ Cosas para el firebase ^^^^
 const fetch = require('node-fetch');
+
+const firebaseConfig = {
+    apiKey: "AIzaSyD4ynh_mwAc-uBHTXGBSDqjG7K65bGqeAA",
+    authDomain: "archivoskpe.firebaseapp.com",
+    databaseURL: "https://archivoskpe-default-rtdb.firebaseio.com",
+    projectId: "archivoskpe",
+    storageBucket: "archivoskpe.appspot.com", //El unico que importa para hacer funcionar el storage
+    messagingSenderId: "970382175255",
+    appId: "1:970382175255:web:a00476ea674118509b4052"
+  };
 
 module.exports.cards = async (req, res) => {
     const apikey = req.body.apikey;
@@ -179,6 +196,42 @@ module.exports.cardsCommentsCreate = async (req, res) => {
     const card_id = req.body.c_ID;
     //const text = req.body.text;
     //const values = {column_id: req.body.c_ID, lane_id: req.body.w_ID, title: req.body.title}
+    const values = {text: req.body.text};
+
+    try {
+        const response = await fetch(`https://university6y.kanbanize.com/api/v2/cards/${c_ID}/comments`,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json; charsetx=utf8",
+                "apikey": apikey
+            },
+            body: JSON.stringify(values)
+            //body: formData,
+
+        });
+        if (response.ok) {
+            const data = await response.json();
+            res.json(data);
+            //console.log("Comments: ", data);
+        }
+        else {
+            res.json({ "error": response.status });
+        }
+    }
+    catch (error) {
+        console.error(error);
+        res.json({ "error": error });
+    }
+}
+
+module.exports.cardsCommentsAttachment = async (req, res) => {
+    //esta ruta crea un comentario en una tarjeta
+    const apikey = req.headers.apikey;
+    const card_id = req.body.c_ID;
+    // Hace falta un const para el dominio, pero porque es la versión local no está
+
+    //const text = req.body.text;
     const values = {text: req.body.text};
 
     try {
