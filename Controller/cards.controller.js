@@ -4,11 +4,11 @@ module.exports.cards = async (req, res) => {
     const apikey = req.body.apikey;
     const kanbanizeUrl = req.body.dom;
     // const b_ID = 21; //req.params.b_ID; //board_id
-    const b_ID = req.body.b_ID; //board_id
+    const bID = req.body.bID; //board_id
 
     try {
         // const response = await fetch(`https://university6y.kanbanize.com/api/v2/cards?board_ids=${b_ID}&workflow_ids=${w_ID}&column_ids=${c_ID}&fields=card_id,title,priority,deadline,board_id,workflow_id,column_id&expand=co_owner_ids`, {
-        const response = await fetch(`https://${kanbanizeUrl}.kanbanize.com/api/v2/cards?board_ids=${b_ID}&fields=card_id,title,owner_user_id,type_id,priority,deadline,workflow_id,column_id&expand=co_owner_ids`, {
+        const response = await fetch(`https://${kanbanizeUrl}.kanbanize.com/api/v2/cards?board_ids=${bID}&fields=card_id,title,owner_user_id,type_id,priority,deadline,workflow_id,column_id&expand=co_owner_ids`, {
             method: "get",
             headers: {
                 "apikey": apikey,
@@ -112,20 +112,20 @@ module.exports.cardsMove = async (req, res) => {
     try {
         const apikey = req.headers.apikey;
         const kanbanizeUrl = req.headers.dom;
-        const card_id = req.headers.card_id;
+        const cardid = req.headers.cardid;
         const column_id = req.body.column_id;
 
         const formData = JSON.stringify({
             "column_id": column_id
         });
 
-        const response = await fetch(`https://${kanbanizeUrl}.kanbanize.com/api/v2/cards/${card_id}`, {
+        const response = await fetch(`https://${kanbanizeUrl}.kanbanize.com/api/v2/cards/${cardid}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json; charset=utf8",
                 "apikey": apikey,
                 "dom": kanbanizeUrl,
-                "card_id": card_id
+                "cardid": cardid
             },
             body: formData,
         });
@@ -134,11 +134,10 @@ module.exports.cardsMove = async (req, res) => {
             const data = await response.json();
             res.json(data);
             console.log(column_id),
-            console.log(card_id)
+            console.log(cardid)
         } else {
             res.json({ "error": response.status });
-            console.log(column_id),
-            console.log(card_id)
+            console.log(column_id)
         }
     } catch (error) {
         console.error(error);
@@ -154,15 +153,15 @@ module.exports.cardsComments = async (req, res) => {
     const apikey = req.body.apikey;
     const kanbanizeUrl = req.body.dom;
     // const b_ID = 21; //req.params.b_ID; //board_id
-    const card_id = req.headers.card_id;
+    const cardid = req.headers.cardid;
     try {
-        const response = await fetch(`https://${kanbanizeUrl}.kanbanize.com/api/v2/cards/${card_id}/comments`,
+        const response = await fetch(`https://${kanbanizeUrl}.kanbanize.com/api/v2/cards/${cardid}/comments`,
          {
             method: "GET",
             headers: {
                 "apikey": apikey,
                 "domain": kanbanizeUrl,
-                "card_id": card_id
+                "cardid": cardid
             },
         })
         if (response.ok) {
@@ -185,7 +184,7 @@ module.exports.cardsCommentsCreate = async (req, res) => {
     const apikey = req.headers.apikey;
     const kanbanizeUrl = req.headers.dom;
 
-    const card_id = req.headers.card_id;
+    const cardid = req.headers.cardid;
     //const text = req.body.text;
     //const values = {column_id: req.body.c_ID, lane_id: req.body.w_ID, title: req.body.title}
     const text = req.body.text;
@@ -194,14 +193,14 @@ module.exports.cardsCommentsCreate = async (req, res) => {
     });
 
     try {
-        const response = await fetch(`https://${kanbanizeUrl}.kanbanize.com/api/v2/cards/${card_id}/comments`,
+        const response = await fetch(`https://${kanbanizeUrl}.kanbanize.com/api/v2/cards/${cardid}/comments`,
         {
             method: "POST",
             headers: {
                 "Content-Type": "application/json; charsetx=utf8",
                 "apikey": apikey,
                 "domain": kanbanizeUrl,
-                "card_id": card_id
+                "cardid": cardid
             },
             body: formData,
             //body: formData,
