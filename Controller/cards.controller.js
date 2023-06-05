@@ -31,6 +31,79 @@ module.exports.cards = async (req, res) => {
     }
 }
 
+module.exports.cardsCommentsCreate = async (req, res) => {
+    //esta ruta crea un comentario en una tarjeta
+    const apikey = req.headers.apikey;
+    const cardid = req.headers.cardid;
+    const kanbanizeUrl = req.headers.dom;
+
+    //Initialize Firebase
+    const appF = initializeApp(firebaseConfig);
+    //Initialize Cloud Storage and get a reference to the service
+    const storage = getStorage(appF);
+    var fileName;
+    var downloadURL;
+
+
+
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send("No se enviaron archivos");
+    }
+
+    try {
+        fileName = req.files.archivo.name;
+        const storageRef = ref(storage, fileName);
+        const snaphot = await uploadBytes(storageRef, req.files.archivo.data);
+
+        downloadURL = await getDownloadURL(storageRef);
+        console.log("File available at: ", downloadURL);
+        
+    }
+    catch (error) {
+        //handle any errors that occur during the upload or retrieval process
+        console.error('Error uploading file:' + error);
+    }
+    //const text = req.body.text;
+    //const values = {column_id: req.body.c_ID, lane_id: req.body.w_ID, title: req.body.title}
+    const text = req.body.text;
+    const formData = JSON.stringify({
+        "text": null,
+        "attachments_to_add":[{
+            "file_name": fileName,
+            link: downloadURL,
+        }]
+    });
+
+    try {
+        const response = await fetch(`https://${kanbanizeUrl}.kanbanize.com/api/v2/cards/${cardid}/comments`,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json; charsetx=utf8",
+                "apikey": apikey,
+                "domain": kanbanizeUrl,
+                "cardid": cardid
+            },
+            body: formData,
+            //body: formData,
+
+        });
+        if (response.ok) {
+            const data = await response.json();
+            res.json(data);
+            //console.log("Comments: ", data);
+        }
+        else {
+            res.json({ "error": response.status });
+        }
+    }
+    catch (error) {
+        console.error(error);
+        res.json({ "error": error });
+    }
+}
+
+
 module.exports.users = async (req, res) => {
     const apikey = req.body.apikey;
     const kanbanizeUrl = req.body.dom;
