@@ -1,4 +1,5 @@
 const express = require('express');
+const fileUpload = require('express-fileupload');
 const cors = require('cors');
 const multer = require('multer');
 require('dotenv/config');
@@ -12,6 +13,8 @@ const cards = require('./Routes/cards');
 const workspaces = require('./Routes/workspaces');
 
 app.use(cors());
+app.use(fileUpload());
+
 app.use(express.json());
 app.use('/', login);
 app.use('/', boards);

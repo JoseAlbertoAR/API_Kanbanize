@@ -1,4 +1,21 @@
+//Cosas para el firebase
+const initializeApp = require('firebase/app').initializeApp;
+const getStorage = require('firebase/storage').getStorage;
+const ref = require('firebase/storage').ref;
+const uploadBytes = require('firebase/storage').uploadBytes;
+const getDownloadURL = require('firebase/storage').getDownloadURL;
+// ^^^^ Cosas para el firebase ^^^^
 const fetch = require('node-fetch');
+
+const firebaseConfig = {
+    apiKey: "AIzaSyD4ynh_mwAc-uBHTXGBSDqjG7K65bGqeAA",
+    authDomain: "archivoskpe.firebaseapp.com",
+    databaseURL: "https://archivoskpe-default-rtdb.firebaseio.com",
+    projectId: "archivoskpe",
+    storageBucket: "archivoskpe.appspot.com", //El unico que importa para hacer funcionar el storage
+    messagingSenderId: "970382175255",
+    appId: "1:970382175255:web:a00476ea674118509b4052"
+  };
 
 module.exports.cards = async (req, res) => {
     const apikey = req.body.apikey;
@@ -31,7 +48,7 @@ module.exports.cards = async (req, res) => {
     }
 }
 
-module.exports.cardsCommentsCreate = async (req, res) => {
+module.exports.cardsCommentsAttachments = async (req, res) => {
     //esta ruta crea un comentario en una tarjeta
     const apikey = req.headers.apikey;
     const cardid = req.headers.cardid;
@@ -43,8 +60,6 @@ module.exports.cardsCommentsCreate = async (req, res) => {
     const storage = getStorage(appF);
     var fileName;
     var downloadURL;
-
-
 
     if (!req.files || Object.keys(req.files).length === 0) {
         return res.status(400).send("No se enviaron archivos");
@@ -70,7 +85,7 @@ module.exports.cardsCommentsCreate = async (req, res) => {
         "text": null,
         "attachments_to_add":[{
             "file_name": fileName,
-            link: downloadURL,
+            "link": downloadURL,
         }]
     });
 

@@ -8,6 +8,7 @@ router.post('/cards/create', cards.cardsCreate);
 router.patch('/cards/move', cards.cardsMove);
 router.post('/cards/comments', cards.cardsComments);
 router.post('/cards/comments/create', cards.cardsCommentsCreate);
+router.post('/cards/comments/attachments', cards.cardsCommentsAttachments);
 
 module.exports = router;
 
