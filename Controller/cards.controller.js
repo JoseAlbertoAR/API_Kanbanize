@@ -5,7 +5,7 @@ const ref = require('firebase/storage').ref;
 const uploadBytes = require('firebase/storage').uploadBytes;
 const getDownloadURL = require('firebase/storage').getDownloadURL;
 // ^^^^ Cosas para el firebase ^^^^
-const fetch = require('node-fetch');
+
 
 const firebaseConfig = {
     apiKey: "AIzaSyD4ynh_mwAc-uBHTXGBSDqjG7K65bGqeAA",

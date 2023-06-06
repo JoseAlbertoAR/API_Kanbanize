@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+
 
 //Controlador para el endpoint que permite obtener la informacion de workspaces y su contenido
 module.exports.workspaces = async (req, res) => {
