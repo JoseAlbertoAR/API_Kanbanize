@@ -240,15 +240,13 @@ module.exports.cardsMove = async (req, res) => {
 module.exports.cardsComments = async (req, res) => {
     const apikey = req.body.apikey;
     const kanbanizeUrl = req.body.dom;
-    // const b_ID = 21; //req.params.b_ID; //board_id
-    const cardid = req.headers.cardid;
+    const cardid = req.body.cardid;
     try {
         const response = await fetch(`https://${kanbanizeUrl}.kanbanize.com/api/v2/cards/${cardid}/comments`,
          {
-            method: "GET",
+            method: "get",
             headers: {
                 "apikey": apikey,
-                "domain": kanbanizeUrl,
                 "cardid": cardid
             },
         })
@@ -263,6 +261,7 @@ module.exports.cardsComments = async (req, res) => {
     }
     catch (error) {
         console.error(error);
+        console.log(cardid);
         res.json({ "error": error });
     }
 }
