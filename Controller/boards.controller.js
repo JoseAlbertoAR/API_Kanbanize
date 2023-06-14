@@ -97,8 +97,7 @@ module.exports.lane =  async (req, res) => {
 
 
     try {
-        const response = await fetch(`https://${kanbanizeUrl}.kanbanize.com/api/v2/boards/${bID}/currentStructure
-        `, {
+        const response = await fetch(`https://${kanbanizeUrl}.kanbanize.com/api/v2/boards/${bID}/lanes`, {
             method: "get",
             headers: {
                 "apikey": apikey,
